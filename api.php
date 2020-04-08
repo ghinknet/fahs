@@ -8,8 +8,8 @@ $stream_opts = [
         "verify_peer_name"=>false,
     ]
 ]; //读取API JSON并转为数组
-$teamjson=file_get_contents("https://stats.foldingathome.org/api/team/".$_GET['teamid'],false, stream_context_create($stream_opts));
-$donorjson=file_get_contents("https://stats.foldingathome.org/api/donor/".$_GET['donor'],false, stream_context_create($stream_opts));
+$teamjson=file_get_contents("https://api.ghink.net/fah/json/team/?teamid=".$_GET['teamid'],false, stream_context_create($stream_opts));
+$donorjson=file_get_contents("https://api.ghink.net/fah/json/donor/?donor=".$_GET['donor'],false, stream_context_create($stream_opts));
 $team=json_decode($teamjson, true);
 $donor=json_decode($donorjson, true);
 //---------------------------------------------------------------------//
