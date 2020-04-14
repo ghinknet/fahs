@@ -68,11 +68,10 @@ $canvas = imagecreatetruecolor(465, 92);//载入画布
 $background = imagecolorallocatealpha($canvas, 0, 0, 0, 127);//设置背景色
 imagefill($canvas, 0, 0, $background);//填充透明色
 imagecolortransparent($canvas, $background);//设置背景色
-$dir = dirname(__FILE__).'\\';//取得运行目录
-$text_fonts = $dir.'fnt.ttf';//设置字体
+$text_fonts = 'fnt.ttf';//设置字体
 $color = imagecolorallocate($canvas, 255, 255, 255);//设置文字颜色
 $text_size = 7;//设置文字大小
-$logo_url = $dir.'img.png';//设置源图片目录
+$logo_url = 'img.png';//设置源图片目录
 $logo = @file_get_contents($logo_url);//读取源文件
 $logo_img = imagecreatefromstring($logo);//解析为图片
 imagecopyresampled($canvas, $logo_img, 0, 0, 0, 0, 465, 92, imagesx($logo_img), imagesy($logo_img));//覆盖图层
