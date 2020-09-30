@@ -187,13 +187,16 @@ if($_GET['mode'] == 'advanced'){//判断是否是高级模式
 	imagepng($canvas);//输出图片
 	imagedestroy($canvas);//关闭进程
 	}elseif($error == 10001){
+		header("Content-type:application/json;charset=utf-8");
 		echo '{"error": "10001"}';
 	}
 	}
 }else{
 	if($_GET['donor'] == null){
+		header("Content-type:application/json;charset=utf-8");
 		echo '{"error": "10001"}';
 	}elseif($_GET['team'] == null){
+		header("Content-type:application/json;charset=utf-8");
 		echo '{"error": "10001"}';
 	}else{
 	$canvas = imagecreatetruecolor(465, 92);//载入画布
