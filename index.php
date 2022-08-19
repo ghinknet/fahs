@@ -30,7 +30,7 @@ $donor_object = json_decode($donor_data, true);
 if ($DEBUG) var_dump($donor_object);
 
 $team_data = file_get_contents("https://api.foldingathome.org/team/".$_GET["team"], false, stream_context_create($arr_context_options)) or die("api failed");
-$team_object = json_decode($donor_data, true);
+$team_object = json_decode($team_data, true);
 if ($DEBUG) var_dump($team_object);
 
 // Load canvas
@@ -58,11 +58,11 @@ imagettftext($canvas, $text_size, 0, 110, 65, $color, $text_fonts, $team_object[
 imagettftext($canvas, $text_size, 0, 90, 82, $color, $text_fonts, $team_object["score"]); // score
 
 // For donor
-imagettftext($canvas, $text_size, 0, 280, 13, $color, $text_fonts, $team_object["name"]); // name
-imagettftext($canvas, $text_size, 0, 290, 32, $color, $text_fonts, $team_object["rank"]); // rank
-imagettftext($canvas, $text_size, 0, 300, 50, $color, $text_fonts, $team_object["wus"]); // wus
-imagettftext($canvas, $text_size, 0, 280, 68, $color, $text_fonts, $team_object["score"]); // score
-imagettftext($canvas, $text_size, 0, 310, 82, $color, $text_fonts, $team_object["last"]); // last done
+imagettftext($canvas, $text_size, 0, 280, 13, $color, $text_fonts, $donor_object["name"]); // name
+imagettftext($canvas, $text_size, 0, 290, 32, $color, $text_fonts, $donor_object["rank"]); // rank
+imagettftext($canvas, $text_size, 0, 300, 50, $color, $text_fonts, $donor_object["wus"]); // wus
+imagettftext($canvas, $text_size, 0, 280, 68, $color, $text_fonts, $donor_object["score"]); // score
+imagettftext($canvas, $text_size, 0, 310, 82, $color, $text_fonts, $donor_object["last"]); // last done
 
 if (!$DEBUG) header("content-type:image/png");
 imagepng($canvas);
