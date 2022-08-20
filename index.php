@@ -61,7 +61,7 @@ if (file_exists("teams/".$team)) {
         }
         if ($DEBUG) var_dump($team_object);
     } else {
-        $team_object = json_decode($local_donor, true);
+        $team_object = json_decode($local_team, true);
     }
 } else {
     // Request for data
