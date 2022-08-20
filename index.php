@@ -15,6 +15,9 @@ if (!isset($_GET["lang"]) || !in_array($_GET["lang"], $langs)) {
 // Get donor
 $donor = $_GET["donor"];
 
+// Get team
+$team = $_GET["team"];
+
 // Setting foor ssl
 $arr_context_options = array(
     "ssl" => array(
@@ -24,14 +27,43 @@ $arr_context_options = array(
     ) ,
 );
 
-// Request for data
-$donor_data = file_get_contents("https://api.foldingathome.org/user/".$donor, false, stream_context_create($arr_context_options)) or die("api failed");
-$donor_object = json_decode($donor_data, true);
-if ($DEBUG) var_dump($donor_object);
+// Read record
+if (file_exists("donors/".$donor)) {
+    $local_donor = file_get_contents("donors/".$donor);
+    if (!$local_donor) {
+        // Request for data
+        $donor_data = @file_get_contents("https://api.foldingathome.org/user/".$donor, false, stream_context_create($arr_context_options)) or die("api failed");
+        $donor_object = json_decode($donor_data, true);
+        if (array_key_exists("status", $donor_object)) {
+            exit("api failed");
+        }
+        if ($DEBUG) var_dump($donor_object);
+    } else {
+        $donor_object = json_decode($local_donor, true);
+    }
+}
+if (file_exists("teams/".$team)) {
+    $local_team = file_get_contents("teams/".$team);
+    if (!$local_team) {
+        // Request for data
+        $team_data = @file_get_contents("https://api.foldingathome.org/team/".$team, false, stream_context_create($arr_context_options)) or die("api failed");
+        $team_object = json_decode($team_data, true);
+        if (array_key_exists("status", $team_object)) {
+            exit("api failed");
+        }
+        if ($DEBUG) var_dump($team_object);
+    } else {
+        $team_object = json_decode($local_donor, true);
+    }
+}
 
-$team_data = file_get_contents("https://api.foldingathome.org/team/".$_GET["team"], false, stream_context_create($arr_context_options)) or die("api failed");
-$team_object = json_decode($team_data, true);
-if ($DEBUG) var_dump($team_object);
+// Save record
+if (!file_exists("donors/".$donor)) {
+    file_put_contents("donors/".$donor, "");
+}
+if (!file_exists("teams/".$team)) {
+    file_put_contents("teams/".$team, "");
+}
 
 // Load canvas
 $canvas = imagecreatetruecolor(465, 92);
