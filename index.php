@@ -41,6 +41,14 @@ if (file_exists("donors/".$donor)) {
     } else {
         $donor_object = json_decode($local_donor, true);
     }
+} else {
+    // Request for data
+    $donor_data = @file_get_contents("https://api.foldingathome.org/user/".$donor, false, stream_context_create($arr_context_options)) or die("api failed");
+    $donor_object = json_decode($donor_data, true);
+    if (array_key_exists("status", $donor_object)) {
+        exit("api failed");
+    }
+    if ($DEBUG) var_dump($donor_object);
 }
 if (file_exists("teams/".$team)) {
     $local_team = file_get_contents("teams/".$team);
@@ -55,6 +63,14 @@ if (file_exists("teams/".$team)) {
     } else {
         $team_object = json_decode($local_donor, true);
     }
+} else {
+    // Request for data
+    $team_data = @file_get_contents("https://api.foldingathome.org/team/".$team, false, stream_context_create($arr_context_options)) or die("api failed");
+    $team_object = json_decode($team_data, true);
+    if (array_key_exists("status", $team_object)) {
+        exit("api failed");
+    }
+    if ($DEBUG) var_dump($team_object);
 }
 
 // Save record
